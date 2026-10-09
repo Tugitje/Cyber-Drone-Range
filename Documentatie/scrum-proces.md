@@ -7,7 +7,7 @@ Dit document beschrijft hoe projectgroep 7 volgens Scrum werkt. Het hoort bij Tr
 - Het project loopt van lesweek 1 tot en met lesweek 20 (31-08-2026 t/m 05-02-2027).
 - Lesweek 1–4 is fase 1: verkenning en projectorganisatie, nog geen sprints.
 - Vanaf lesweek 5 werken we in **8 sprints van 2 lesweken**.
-- De herfstvakantie (kalenderweek 43) en de kerstvakantie (kalenderweek 52–53) zijn geen sprintweken.
+- De herfstvakantie (kalenderweek 43) en de kerstvakantie (kalenderweek 52–53) zijn geen sprintweken, ze kunnen wel eventueel ook onze marges zijn voor als we nog tijd nodig hebben om bepaalde taken af te ronden.
 
 ## Roulatieschema Scrum Master
 
@@ -57,7 +57,7 @@ De Scrum Master is niet de baas van de groep. Hij of zij zorgt ervoor dat afspra
 | Lesweek 18 | Procesverslag inleveren |
 | Lesweek 19 | Fasegesprek 4 |
 
-> **Let op:** het rapport en fasegesprek 2 zijn eerder dan in de oorspronkelijke planning (die ging uit van intern af op 30-10 en fasegesprek in lesweek 9). Het rapport wordt daarom in sprint 2 geschreven. Mijlpaal M4 blijft in sprint 3, omdat daar de feedback uit het fasegesprek wordt verwerkt.
+**Let op:** het rapport en fasegesprek 2 zijn eerder dan in de oorspronkelijke planning (die ging uit van intern af op 30-10 en fasegesprek in lesweek 9). Het rapport wordt daarom in sprint 2 geschreven. Mijlpaal M4 blijft in sprint 3, omdat daar de feedback uit het fasegesprek wordt verwerkt.
 
 ## Bijsturen
 
