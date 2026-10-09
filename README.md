@@ -1,1 +1,34 @@
-# Cyber-Drone-Range
+# Drone Cyber Range
+
+Een geïsoleerde en reproduceerbare testomgeving waarin studenten en onderzoekers de beveiliging van een dronesysteem gecontroleerd kunnen onderzoeken.
+
+## Aan de slag
+
+- Installatie en eerste vlucht: [Documentatie/installatie-sitl.md](Documentatie/installatie-sitl.md)
+- Gebruikte versies: [config/versies.md](config/versies.md)
+- Bevindingen en bekende problemen: [Documentatie/bevindingen.md](Documentatie/bevindingen.md)
+
+Snelle installatie op een schone Ubuntu 26.04-VM:
+
+```bash
+git clone <url van deze repository> ~/drone-cyber-range
+bash ~/drone-cyber-range/scripts/install-sitl.sh
+```
+
+## Mappen
+
+| Map | Inhoud |
+|---|---|
+| `Documentatie/` | Handleidingen, ontwerp en bevindingen |
+| `config/` | Versies en (later) parameterbestanden |
+| `scripts/` | Installatie- en hulpscripts |
+| `patches/` | Aanpassingen op externe software (indien nodig) |
+
+De broncode van ArduPilot staat niet in deze repository. Die wordt door het installatiescript opgehaald op een vaste versie.
+
+## Werkafspraken
+
+- `main` bevat altijd een werkende versie.
+- Werk op een eigen branch per taak, bijvoorbeeld `feature/qgc-installatie`.
+- Wijzigingen gaan via een pull request met minimaal één review van een ander groepslid.
+- Geen wachtwoorden, sleutels, VM-images of grote logbestanden in de repository.

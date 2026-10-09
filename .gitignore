@@ -1,0 +1,36 @@
+# ArduPilot-broncode hoort niet in deze repo
+ardupilot/
+
+# SITL-uitvoer (ontstaat in de map waar sim_vehicle.py draait)
+logs/
+terrain/
+eeprom.bin
+mav.parm
+mav.tlog
+mav.tlog.raw
+*.tlog
+*.tlog.raw
+*.bin
+
+# Netwerkcaptures
+*.pcap
+*.pcapng
+
+# Python
+__pycache__/
+*.pyc
+venv*/
+.venv/
+
+# VM-images en grote bestanden
+*.vdi
+*.vmdk
+*.ova
+*.iso
+*.AppImage
+
+# Editor en OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
