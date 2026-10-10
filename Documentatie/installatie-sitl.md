@@ -153,7 +153,6 @@ ArduPilot SITL wacht op TCP-poort 5760. `sim_vehicle.py` start MAVProxy, dat het
 | `Unable to locate package python3-argparse` | Script kent Ubuntu 26.04 niet | Stap 3.3 |
 | `Disk quota exceeded` bij wxPython | `/tmp` te klein op Ubuntu 26.04 | Stap 3.4 |
 | `sim_vehicle.py: command not found` | Venv of pad niet geladen in deze terminal | Stap 3.6, of tijdelijk `export PATH=$HOME/ardupilot/Tools/autotest:$PATH` |
-| `No such file or directory` bij de AppImage | Map heet `Downloads` met hoofdletter | `~/Downloads/...` gebruiken; zoeken met `find ~ -iname "QGroundControl*.AppImage"` |
 | QGroundControl start niet of toont een leeg venster | Wayland | `QT_QPA_PLATFORM=xcb ~/Downloads/QGroundControl*.AppImage` |
 | `Unable to locate package libfuse2` | Pakket heet anders op nieuwe Ubuntu | `libfuse2t64` installeren |
 | Rechtsklikmenu op de kaart werkt niet | Wayland | Start met `GDK_BACKEND=x11 sim_vehicle.py --console --map`, of gebruik QGroundControl |

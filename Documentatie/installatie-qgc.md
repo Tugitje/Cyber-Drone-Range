@@ -35,7 +35,7 @@ Maak het bestand uitvoerbaar (één keer):
 chmod +x ~/Downloads/QGroundControl*.AppImage
 ```
 
-Let op de hoofdletter: de map heet `Downloads`. Weet je niet waar het bestand staat:
+Weet je niet waar het bestand staat:
 
 ```bash
 find ~ -iname "QGroundControl*.AppImage" 2>/dev/null
@@ -113,7 +113,6 @@ Je kunt dit verkeer bekijken met Wireshark op de loopback-interface (`lo`), met 
 
 | Probleem | Oorzaak | Oplossing |
 |---|---|---|
-| `No such file or directory` bij de AppImage | Map heet `Downloads` met hoofdletter | `~/Downloads/...` gebruiken |
 | `Permission denied` bij de AppImage | Bestand niet uitvoerbaar | `chmod +x ~/Downloads/QGroundControl*.AppImage` |
 | `Unable to locate package libfuse2` | Pakket heet anders op Ubuntu 26.04 | `libfuse2t64` installeren |
 | QGC start niet of venster blijft leeg | Wayland | `QT_QPA_PLATFORM=xcb` voor het commando zetten |
