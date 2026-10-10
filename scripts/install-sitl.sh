@@ -54,7 +54,13 @@ stap "Benodigde software installeren (duurt 30 tot 60 minuten)"
 
 rm -rf "$HOME/tmp"
 
+stap "Venv en pad instellen voor elke nieuwe terminal (~/.bashrc)"
+VENV_LINE='source $HOME/venv-ardupilot/bin/activate'
+PATH_LINE='export PATH=$HOME/ardupilot/Tools/autotest:$PATH'
+grep -qxF "$VENV_LINE" "$HOME/.bashrc" || echo "$VENV_LINE" >> "$HOME/.bashrc"
+grep -qxF "$PATH_LINE" "$HOME/.bashrc" || echo "$PATH_LINE" >> "$HOME/.bashrc"
+
 stap "Klaar"
-echo "Log uit en weer in (of voer '. ~/.profile' uit), en start daarna:"
+echo "Open een nieuwe terminal (of log uit en weer in), en start daarna:"
 echo "  cd ~/ardupilot/ArduCopter"
 echo "  sim_vehicle.py --console --map"

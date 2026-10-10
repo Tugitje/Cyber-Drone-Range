@@ -86,9 +86,16 @@ rm -rf ~/tmp
 
 Het script is klaar als je `Done!` en `install-prereqs-ubuntu.sh end` ziet.
 
-### 3.6 Nieuwe instellingen laden
+### 3.6 Venv en pad instellen voor elke terminal
 
-Log uit en weer in, of voer `. ~/.profile` uit. Controleer daarna:
+Het installatiescript van ArduPilot zet de Python-venv en het pad naar de tools alleen in `~/.profile`. Dat bestand wordt niet gelezen als je een nieuw terminalvenster opent. Zet ze daarom ook in `~/.bashrc` (één keer):
+
+```bash
+echo 'source $HOME/venv-ardupilot/bin/activate' >> ~/.bashrc
+echo 'export PATH=$HOME/ardupilot/Tools/autotest:$PATH' >> ~/.bashrc
+```
+
+Open daarna een nieuwe terminal. Je ziet `(venv-ardupilot)` voor de prompt. Controleer:
 
 ```bash
 which sim_vehicle.py
@@ -96,6 +103,8 @@ which mavproxy.py
 ```
 
 Bij beide hoort een pad terug te komen.
+
+Systeempakketten (`sudo apt install`) kun je gewoon installeren terwijl de venv actief is; de venv geldt alleen voor Python-pakketten.
 
 ## 4. Eerste vlucht
 
@@ -134,7 +143,7 @@ ArduPilot SITL ──TCP 5760──► MAVProxy ──UDP 14550──► QGround
                                       └─UDP 14551──► (vrij voor scripts)
 ```
 
-ArduPilot SITL wacht op TCP-poort 5760. `sim_vehicle.py` start MAVProxy, dat het MAVLink-verkeer doorstuurt naar UDP-poort 14550 (en 14551). QGroundControl luistert standaard op 14550 en verbindt automatisch.
+ArduPilot SITL wacht op TCP-poort 5760. `sim_vehicle.py` start MAVProxy, dat het MAVLink-verkeer doorstuurt naar UDP-poort 14550 (en 14551). QGroundControl luistert standaard op 14550 en verbindt automatisch. Zie [installatie-qgc.md](installatie-qgc.md).
 
 ## 6. Bekende problemen
 
@@ -143,33 +152,16 @@ ArduPilot SITL wacht op TCP-poort 5760. `sim_vehicle.py` start MAVProxy, dat het
 | Zwart scherm bij opstarten ISO | Grafische driver in de VM | "Ubuntu (safe graphics)" kiezen; VBoxSVGA gebruiken |
 | `Unable to locate package python3-argparse` | Script kent Ubuntu 26.04 niet | Stap 3.3 |
 | `Disk quota exceeded` bij wxPython | `/tmp` te klein op Ubuntu 26.04 | Stap 3.4 |
-| `sim_vehicle.py: command not found` | Pad nog niet geladen | `. ~/.profile` of opnieuw inloggen |
+| `sim_vehicle.py: command not found` | Venv of pad niet geladen in deze terminal | Stap 3.6, of tijdelijk `export PATH=$HOME/ardupilot/Tools/autotest:$PATH` |
+| `No such file or directory` bij de AppImage | Map heet `Downloads` met hoofdletter | `~/Downloads/...` gebruiken; zoeken met `find ~ -iname "QGroundControl*.AppImage"` |
+| QGroundControl start niet of toont een leeg venster | Wayland | `QT_QPA_PLATFORM=xcb ~/Downloads/QGroundControl*.AppImage` |
+| `Unable to locate package libfuse2` | Pakket heet anders op nieuwe Ubuntu | `libfuse2t64` installeren |
 | Rechtsklikmenu op de kaart werkt niet | Wayland | Start met `GDK_BACKEND=x11 sim_vehicle.py --console --map`, of gebruik QGroundControl |
 | `could not convert string` bij `guided` | Getal verkeerd getypt | Punten gebruiken (`-35.3625`), spaties tussen de getallen |
-| Gedeeld klembord VirtualBox werkt niet | Wayland | Via SSH werken, zie hieronder |
+| Gedeeld klembord VirtualBox werkt niet | Wayland | Via SSH werken, zie [ssh-verbinding.md](ssh-verbinding.md) |
 
-### Werken via SSH vanuit Windows
-
-In de VM:
-
-```bash
-sudo apt install -y openssh-server
-```
-
-In PowerShell op Windows, met de VM uit:
-
-```powershell
-& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" modifyvm "CyberDroneRange" --natpf1 "ssh,tcp,,2222,,22"
-```
-
-Start de VM en verbind met:
-
-```powershell
-ssh -p 2222 <gebruikersnaam>@127.0.0.1
-```
-
-Vervang `CyberDroneRange` door de naam van je VM.
+Tip: stel de SSH-verbinding in vóór je met stap 2 of 3 begint. Dan kun je alle commando's uit deze handleiding kopiëren en plakken. Zie [ssh-verbinding.md](ssh-verbinding.md).
 
 ## 7. Volgende stap
 
-QGroundControl installeren en verbinden met SITL, en een eerste missie plannen. Deze handleiding wordt dan aangevuld.
+Een eerste missie plannen en vliegen in QGroundControl. Zie [installatie-qgc.md](installatie-qgc.md).
