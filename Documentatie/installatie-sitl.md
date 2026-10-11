@@ -139,11 +139,11 @@ pkill -f mavproxy
 ## 5. Hoe de onderdelen communiceren
 
 ```
-ArduPilot SITL ──TCP 5760──► MAVProxy ──UDP 14550──► QGroundControl
+ArduPilot SITL ──TCP 5760──► MAVProxy ──UDP 14550──► QGroundControl (op Windows, via 10.0.2.2)
                                       └─UDP 14551──► (vrij voor scripts)
 ```
 
-ArduPilot SITL wacht op TCP-poort 5760. `sim_vehicle.py` start MAVProxy, dat het MAVLink-verkeer doorstuurt naar UDP-poort 14550 (en 14551). QGroundControl luistert standaard op 14550 en verbindt automatisch. Zie [installatie-qgc.md](installatie-qgc.md).
+ArduPilot SITL wacht op TCP-poort 5760. `sim_vehicle.py` start MAVProxy, dat het MAVLink-verkeer doorstuurt naar UDP-poort 14550 (en 14551). QGroundControl draait op de Windows-host; start SITL daarvoor met `--out=udp:10.0.2.2:14550`. Zie [installatie-qgc.md](installatie-qgc.md).
 
 ## 6. Bekende problemen
 
@@ -153,10 +153,6 @@ ArduPilot SITL wacht op TCP-poort 5760. `sim_vehicle.py` start MAVProxy, dat het
 | `Unable to locate package python3-argparse` | Script kent Ubuntu 26.04 niet | Stap 3.3 |
 | `Disk quota exceeded` bij wxPython | `/tmp` te klein op Ubuntu 26.04 | Stap 3.4 |
 | `sim_vehicle.py: command not found` | Venv of pad niet geladen in deze terminal | Stap 3.6, of tijdelijk `export PATH=$HOME/ardupilot/Tools/autotest:$PATH` |
-| QGroundControl start niet of toont een leeg venster | Wayland | `QT_QPA_PLATFORM=xcb ~/Downloads/QGroundControl*.AppImage` |
-| `Unable to locate package libfuse2` | Pakket heet anders op nieuwe Ubuntu | `libfuse2t64` installeren |
-| Rechtsklikmenu op de kaart werkt niet | Wayland | Start met `GDK_BACKEND=x11 sim_vehicle.py --console --map`, of gebruik QGroundControl |
-| `could not convert string` bij `guided` | Getal verkeerd getypt | Punten gebruiken (`-35.3625`), spaties tussen de getallen |
 | Gedeeld klembord VirtualBox werkt niet | Wayland | Via SSH werken, zie [ssh-verbinding.md](ssh-verbinding.md) |
 
 Tip: stel de SSH-verbinding in vóór je met stap 2 of 3 begint. Dan kun je alle commando's uit deze handleiding kopiëren en plakken. Zie [ssh-verbinding.md](ssh-verbinding.md).

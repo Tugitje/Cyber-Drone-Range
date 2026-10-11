@@ -76,7 +76,7 @@ Je zit nu in de terminal van de VM.
 | Werkt via SSH | Werkt niet via SSH (gebruik het VM-venster) |
 |---|---|
 | Installeren, scripts draaien, bestanden bewerken | Kaart- en consolevenster van MAVProxy (`--map`, `--console`) |
-| `sim_vehicle.py` zonder vensters | QGroundControl |
+| `sim_vehicle.py` zonder vensters, ook samen met QGroundControl op Windows (zie [installatie-qgc.md](installatie-qgc.md)) | |
 | Git (clonen, committen, pushen) | Gazebo en Wireshark (grafisch) |
 
 Handige combinatie: start de simulatie in het VM-venster, en gebruik SSH voor al het andere werk.
@@ -87,6 +87,4 @@ Handige combinatie: start de simulatie in het VM-venster, en gebruik SSH voor al
 |---|---|---|
 | `Connection refused` | SSH-server draait niet in de VM, of de VM is nog aan het opstarten | `sudo systemctl enable --now ssh` in de VM; even wachten |
 | `Connection timed out` | Port forwarding ontbreekt | Stap 2 opnieuw doen, controleren met `showvminfo` |
-| `REMOTE HOST IDENTIFICATION HAS CHANGED` | VM opnieuw geïnstalleerd of snapshot teruggezet | `ssh-keygen -R "[127.0.0.1]:2222"` in PowerShell, daarna opnieuw verbinden |
-| `Permission denied` | Verkeerde gebruikersnaam of wachtwoord | Gebruikersnaam staat in de VM vóór de `@` in de terminal-prompt |
 | `ssh` wordt niet herkend in PowerShell | OpenSSH-client ontbreekt op Windows | Windows-instellingen → Systeem → Optionele onderdelen → OpenSSH-client toevoegen |

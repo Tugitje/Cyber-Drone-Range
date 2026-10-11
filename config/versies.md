@@ -8,7 +8,7 @@ Deze versies zijn getest. Wijk je ergens van af, noteer dat dan hier en in [Docu
 | Besturingssysteem VM | Ubuntu 26.04.1 LTS (resolute) | Desktop-ISO |
 | ArduPilot | Copter-4.7.1 | Git-tag; controleren met `git tag --points-at HEAD` |
 | MAVProxy | meegeleverd door installatiescript ArduPilot | Versie noteren met `mavproxy.py --version` |
-| QGroundControl | nog invullen | AppImage van docs.qgroundcontrol.com; versie staat meestal in de bestandsnaam of in het Q-menu van QGC |
+| QGroundControl | nog invullen | Windows-installer op de host, via docs.qgroundcontrol.com (Stable V5.1) |
 
 ## Aanbevolen VM-instellingen
 

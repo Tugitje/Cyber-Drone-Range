@@ -2,87 +2,68 @@
 
 QGroundControl (QGC) is het Ground Control Station van de cyber range: de "afstandsbediening" en missieplanner voor de operator. QGC verstuurt commando's en missies via MAVLink naar ArduPilot SITL en toont de telemetrie die de drone terugstuurt. De autopilot (SITL) voert de commando's zelf uit.
 
-Voorwaarde: ArduPilot SITL is geïnstalleerd volgens [installatie-sitl.md](installatie-sitl.md).
+QGC draait op de **Windows-host**, niet in de VM. ArduPilot SITL draait in de VM en stuurt het MAVLink-verkeer naar Windows. Zo blijft de VM lichter en heb je geen last van Wayland of ontbrekende pakketten in Ubuntu.
 
-## 1. Benodigde pakketten
+Voorwaarde: ArduPilot SITL is geïnstalleerd volgens [installatie-sitl.md](installatie-sitl.md), en de VM gebruikt het standaard NAT-netwerk van VirtualBox.
 
-Dit kan via SSH. De venv mag daarbij actief zijn.
+## 1. Downloaden en installeren op Windows
 
-```bash
-sudo usermod -aG dialout $USER
-sudo apt remove -y modemmanager
-sudo apt install -y gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl \
-  libfuse2t64 libxcb-xinerama0 libxkbcommon-x11-0 libxcb-cursor0
-```
+Download QGC voor Windows via de officiële documentatie:
 
-| Pakket of stap | Waarom |
-|---|---|
-| `dialout`-groep | Toegang tot seriële poorten, nodig zodra er later een echte flight controller (Pixhawk) wordt aangesloten |
-| `modemmanager` verwijderen | Dit programma claimt seriële poorten en verstoort de verbinding met een flight controller |
-| GStreamer-pakketten | Videoweergave in QGC |
-| `libfuse2t64` | Nodig om een AppImage te starten. Op oudere Ubuntu-versies heet dit pakket `libfuse2` |
-| `libxcb-*`, `libxkbcommon-x11-0` | Grafische bibliotheken voor QGC |
+https://docs.qgroundcontrol.com/Stable_V5.1/en/qgc-user-guide/getting_started/download_and_install.html
 
-Log daarna uit en weer in, zodat de groepswijziging actief wordt.
+Kies daar **Windows** en voer de installer uit.
 
-## 2. Downloaden
-
-Open Firefox in de VM en ga naar de officiële documentatie: **docs.qgroundcontrol.com** → *Getting Started* → *Download and Install* → *Ubuntu Linux*. Download de **AppImage**.
-
-Maak het bestand uitvoerbaar (één keer):
-
-```bash
-chmod +x ~/Downloads/QGroundControl*.AppImage
-```
-
-Weet je niet waar het bestand staat:
-
-```bash
-find ~ -iname "QGroundControl*.AppImage" 2>/dev/null
-```
+Bij de eerste keer starten vraagt Windows Firewall of QGC het netwerk mag gebruiken. Sta dit toe, anders komen de MAVLink-berichten uit de VM niet binnen.
 
 Noteer de versie van QGC in [config/versies.md](../config/versies.md).
 
-## 3. Verbinden met de simulatie
+## 2. SITL starten in de VM
 
-Doe dit in het VM-venster zelf. QGC en de kaart van MAVProxy werken niet via SSH.
+MAVProxy stuurt het MAVLink-verkeer standaard alleen naar `127.0.0.1` in de VM zelf. Met `--out` stuur je het ook naar Windows. Binnen het NAT-netwerk van VirtualBox heeft de Windows-host altijd het adres `10.0.2.2`.
 
-**Terminal 1: SITL starten**
+**Via SSH** (zie [ssh-verbinding.md](ssh-verbinding.md)):
 
 ```bash
 cd ~/ardupilot/ArduCopter
-sim_vehicle.py --console --map
+sim_vehicle.py --out=udp:10.0.2.2:14550
 ```
 
-Wacht tot de drone GPS heeft (`EKF3 IMU0 is using GPS` in de console).
-
-**Terminal 2: QGroundControl starten**
+**In het VM-venster**, met de console en de kaart van MAVProxy erbij:
 
 ```bash
-~/Downloads/QGroundControl*.AppImage
+cd ~/ardupilot/ArduCopter
+sim_vehicle.py --console --map --out=udp:10.0.2.2:14550
 ```
 
-Start QGC niet, of zie je een leeg venster:
+Wacht tot de drone GPS heeft (`EKF3 IMU0 is using GPS`).
 
-```bash
-QT_QPA_PLATFORM=xcb ~/Downloads/QGroundControl*.AppImage
+Draait SITL al zonder `--out`? Typ dan in de MAVProxy-terminal:
+
+```
+output add 10.0.2.2:14550
 ```
 
-QGC verbindt automatisch. Je ziet de drone op de kaart bij het vliegveld in Canberra, en bovenin staat de status van de drone.
+## 3. QGroundControl verbinden
 
-Volgorde: start eerst SITL en daarna QGC. Andersom werkt meestal ook, maar dan duurt het verbinden soms langer.
+Start QGC op Windows. QGC luistert standaard op UDP-poort 14550 en verbindt automatisch zodra er MAVLink-berichten binnenkomen. Je ziet de drone op de kaart bij het vliegveld in Canberra, en bovenin staat de status van de drone.
+
+Volgorde maakt niet uit: QGC kan al openstaan voordat SITL start.
 
 ## 4. Hoe de verbinding werkt
 
 ```
-ArduPilot SITL ──TCP 5760──► MAVProxy ──UDP 14550──► QGroundControl
-                                      └─UDP 14551──► (vrij voor scripts)
+               VM (Ubuntu)                         │   Windows-host
+                                                   │
+ArduPilot SITL ──TCP 5760──► MAVProxy ──UDP 14550──┼──► QGroundControl
+                                │   (via NAT naar 10.0.2.2)
+                                └─UDP 14551──► 127.0.0.1 (vrij voor scripts in de VM)
 ```
 
 - ArduPilot SITL wacht op TCP-poort 5760.
-- MAVProxy, gestart door `sim_vehicle.py`, verbindt met SITL en stuurt het MAVLink-verkeer door naar UDP-poort 14550 en 14551 op `127.0.0.1`.
-- QGC luistert standaard op UDP-poort 14550 en verbindt zodra daar MAVLink-berichten binnenkomen.
-- Poort 14551 is vrij voor bijvoorbeeld testscripts (pymavlink).
+- MAVProxy, gestart door `sim_vehicle.py`, verbindt met SITL en stuurt het MAVLink-verkeer door naar de adressen die met `--out` zijn opgegeven, en standaard naar UDP 14550 en 14551 op `127.0.0.1` in de VM.
+- VirtualBox geeft verkeer naar `10.0.2.2` door aan Windows. QGC ontvangt het op UDP-poort 14550 en stuurt zijn commando's via dezelfde weg terug.
+- Poort 14551 in de VM is vrij voor bijvoorbeeld testscripts (pymavlink).
 
 Berichten die over deze verbinding gaan:
 
@@ -91,7 +72,7 @@ Berichten die over deze verbinding gaan:
 | Drone → QGC | `HEARTBEAT` (elke seconde), positie (`GLOBAL_POSITION_INT`), hoogte, batterij, status |
 | QGC → drone | Commando's zoals opstijgen en landen (`COMMAND_LONG`), moduswissels, missie-waypoints (`MISSION_ITEM_INT`) |
 
-Je kunt dit verkeer bekijken met Wireshark op de loopback-interface (`lo`), met het filter `udp.port == 14550`.
+Dit verkeer bekijk je met Wireshark in de VM, op de netwerkinterface van de VM (meestal `enp0s3`, controleren met `ip a`), met het filter `udp.port == 14550`.
 
 ## 5. Eerste missie
 
@@ -100,7 +81,7 @@ Je kunt dit verkeer bekijken met Wireshark op de loopback-interface (`lo`), met 
 3. Voeg aan het eind **Return** toe (terug naar de startplek en landen).
 4. Klik op **Upload** om de missie naar de drone te sturen.
 5. Ga terug naar **Fly**, en start de missie met de schuifknop onderin.
-6. Kijk hoe de drone de route vliegt, in QGC en op de kaart van MAVProxy.
+6. Kijk hoe de drone de route vliegt in QGC.
 7. Sla de missie op via **File → Save** en zet het `.plan`-bestand in de map `missions/` van deze repository.
 
 ## 6. Afsluiten
@@ -113,7 +94,6 @@ Je kunt dit verkeer bekijken met Wireshark op de loopback-interface (`lo`), met 
 
 | Probleem | Oorzaak | Oplossing |
 |---|---|---|
-| `Permission denied` bij de AppImage | Bestand niet uitvoerbaar | `chmod +x ~/Downloads/QGroundControl*.AppImage` |
-| `Unable to locate package libfuse2` | Pakket heet anders op Ubuntu 26.04 | `libfuse2t64` installeren |
-| QGC start niet of venster blijft leeg | Wayland | `QT_QPA_PLATFORM=xcb` voor het commando zetten |
-| QGC blijft "Disconnected" | SITL draait niet, of MAVProxy stuurt niet naar 14550 | Controleer in de SITL-terminal of er regels met `udp:127.0.0.1:14550` staan; start SITL opnieuw |
+| QGC blijft "Disconnected" | SITL is gestart zonder `--out` | SITL opnieuw starten met `--out=udp:10.0.2.2:14550`, of `output add 10.0.2.2:14550` typen in MAVProxy |
+| QGC blijft "Disconnected", `--out` staat goed | Windows Firewall blokkeert QGC | Windows-beveiliging → Firewall → Een app toestaan via de firewall → QGroundControl aanvinken |
+| QGC blijft "Disconnected", VM gebruikt geen NAT | `10.0.2.2` bestaat alleen in het NAT-netwerk van VirtualBox | Netwerkadapter van de VM op NAT zetten |
