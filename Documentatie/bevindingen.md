@@ -10,7 +10,7 @@ Feitelijke bevindingen uit het werk aan de cyber range. Gebruik deze voor de afw
 
 ### Resultaat
 
-ArduPilot SITL is geïnstalleerd en een eerste gesimuleerde vlucht is gelukt: opstijgen naar 10 meter, rondvliegen (`mode circle`) en terugkeren en landen (`mode rtl`). Daarna is QGroundControl geïnstalleerd en automatisch verbonden met de simulatie via MAVLink over UDP 14550; de drone is zichtbaar in QGC.
+ArduPilot SITL is geïnstalleerd en een eerste gesimuleerde vlucht is gelukt: opstijgen naar 10 meter, rondvliegen (`mode circle`) en terugkeren en landen (`mode rtl`). Daarna is QGroundControl op de Windows-host geïnstalleerd en verbonden met de simulatie via MAVLink over UDP 14550; de drone is zichtbaar in QGC.
 
 ### Bevindingen
 
@@ -23,9 +23,8 @@ ArduPilot SITL is geïnstalleerd en een eerste gesimuleerde vlucht is gelukt: op
 | B5 | Ubuntu 26.04 gebruikt Wayland. Het rechtsklikmenu op de MAVProxy-kaart en het gedeelde klembord van VirtualBox werken daardoor niet. | Omweg: `GDK_BACKEND=x11`, QGroundControl, of werken via SSH. | Omweg |
 | B6 | De VM kan traag zijn als Hyper-V in Windows aanstaat. | Hyper-V uitschakelen (zie installatiehandleiding). | Advies |
 | B7 | De totale installatietijd was ongeveer [aantal] uur, inclusief het oplossen van problemen. | Input voor afwegingsmatrix ArduPilot vs. PX4. | Te vergelijken |
-| B8 | Het installatiescript van ArduPilot zet de venv en het pad alleen in `~/.profile`. Een nieuw terminalvenster leest dat niet, waardoor `sim_vehicle.py` niet gevonden wordt. | Regels toegevoegd aan `~/.bashrc`; opgenomen in `scripts/install-sitl.sh`. | Opgelost |
-| B9 | QGroundControl heeft `libfuse2` nodig; op Ubuntu 26.04 heet dit pakket `libfuse2t64`. | Pakketnaam aangepast in de handleiding. | Opgelost |
-| B10 | QGroundControl verbindt zonder extra configuratie met SITL via MAVLink over UDP 14550. | Basis voor verdere tests: dit is de verbinding die later wordt geanalyseerd en beveiligd. | Werkt |
+| B8 | QGroundControl op de Windows-host verbindt met SITL via MAVLink over UDP 14550, als SITL gestart wordt met `--out=udp:10.0.2.2:14550`. | Basis voor verdere tests: dit is de verbinding die later wordt geanalyseerd en beveiligd. | Werkt |
+| B9 | In Wireshark is de inhoud van MAVLink-berichten (positie, status, arming) direct leesbaar; zonder signing bevatten berichten geen handtekening. | Startpunt voor dreigingsmodel en securitytests. | Observatie |
 
 ### Risico's voor de risicoanalyse
 

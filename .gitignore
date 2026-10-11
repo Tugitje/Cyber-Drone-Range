@@ -11,6 +11,7 @@ mav.tlog.raw
 *.tlog
 *.tlog.raw
 *.bin
+*.BIN
 
 # Netwerkcaptures
 *.pcap
@@ -34,3 +35,6 @@ venv*/
 .idea/
 .DS_Store
 Thumbs.db
+
+# MAVLink-dissector (gegenereerd met mavgen, zie tools/wireshark/README.md)
+tools/wireshark/*.lua
