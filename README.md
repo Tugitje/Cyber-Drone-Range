@@ -7,6 +7,7 @@ Een geïsoleerde en reproduceerbare testomgeving waarin studenten en onderzoeker
 - Installatie en eerste vlucht: [Documentatie/installatie-sitl.md](Documentatie/installatie-sitl.md)
 - QGroundControl installeren en verbinden: [Documentatie/installatie-qgc.md](Documentatie/installatie-qgc.md)
 - Normaal MAVLink-verkeer opnemen en analyseren (baseline): [Documentatie/baseline-procedure.md](Documentatie/baseline-procedure.md)
+- Referentievlucht automatisch opnemen: `scripts/run-vlucht.sh`, zie [missions/README.md](missions/README.md)
 - Commando's kopiëren en plakken via SSH vanuit Windows: [Documentatie/ssh-verbinding.md](Documentatie/ssh-verbinding.md)
 - Gebruikte versies: [config/versies.md](config/versies.md)
 - Bevindingen en bekende problemen: [Documentatie/bevindingen.md](Documentatie/bevindingen.md)
@@ -24,12 +25,12 @@ bash ~/drone-cyber-range/scripts/install-sitl.sh
 |---|---|
 | `Documentatie/` | Handleidingen, ontwerp en bevindingen |
 | `config/` | Versies en (later) parameterbestanden |
-| `scripts/` | Installatie- en hulpscripts |
+| `scripts/` | Installatie-, hulp en run-scripts |
 | `patches/` | Aanpassingen op externe software (indien nodig) |
-| `missions/` | Missiebestanden voor het referentiescenario (volgt) |
+| `missions/` | Missiebestanden, zoals de referentiemissie `baseline.txt` |
 | `tools/wireshark/` | MAVLink-dissector voor Wireshark en tshark |
 | `tools/analysis/` | Analysescripts voor opnames, zoals `baseline_simpel.py` |
-| `results/` | Samenvattingen van metingen (geen grote pcap-bestanden) |
+| `results/` | Resultaten per vlucht (`vluchten/`) en samenvattingen van metingen (`baseline/`); geen grote pcap-bestanden |
 
 De broncode van ArduPilot staat niet in deze repository. Die wordt door het installatiescript opgehaald op een vaste versie.
 

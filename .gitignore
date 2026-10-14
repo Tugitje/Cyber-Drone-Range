@@ -38,3 +38,7 @@ Thumbs.db
 
 # MAVLink-dissector (gegenereerd met mavgen, zie tools/wireshark/README.md)
 tools/wireshark/*.lua
+
+# Log van tcpdump uit scripts/run-vlucht.sh (wel bewaren bij de baseline)
+tcpdump.log
+!results/baseline/**/tcpdump.log
