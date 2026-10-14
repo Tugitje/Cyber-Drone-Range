@@ -55,52 +55,68 @@ Installeren voor Wireshark op Windows: kopieer het `.lua`-bestand naar de map *P
 
 ### 3. Vaste missie
 
-Maak in QGroundControl één referentiemissie (bijvoorbeeld: opstijgen naar 10 m, 4 waypoints, Return) en sla die op als `missions/baseline.plan`. Gebruik bij elke run precies deze missie.
+Gebruik bij elke run de referentiemissie [`missions/baseline.txt`](../missions/baseline.txt): opstijgen naar 20 m, een vierkant van 50 × 50 m rond de startplek, terug naar start en landen. Zie [missions/README.md](../missions/README.md).
 
 ## Procedure per run
 
-Gebruik drie terminals (SSH mag) en QGroundControl op Windows. Noteer bij elke stap de kloktijd.
+Gebruik één terminal in de VM (SSH mag) en QGroundControl op Windows. Noteer bij elke stap de kloktijd.
 
-**Terminal 1: opname starten**
-
-```bash
-mkdir -p ~/captures && cd ~/captures
-NAAM=baseline_$(date +%Y%m%d_%H%M)
-echo $NAAM
-sudo tcpdump -i any -w ${NAAM}.pcap 'tcp port 5760 or udp portrange 14550-14551'
-```
-
-**Terminal 2: SITL starten**
+**Opname en SITL starten**
 
 ```bash
-cd ~/ardupilot/ArduCopter
-sim_vehicle.py --out=udp:10.0.2.2:14550
+source ~/venv-ardupilot/bin/activate
+~/drone-cyber-range/scripts/run-vlucht.sh baseline -w
 ```
+
+Het script start tcpdump en daarna SITL, met `--out=udp:10.0.2.2:14550` voor QGC op de host. `-w` zet SITL terug op de standaardparameters, zodat elke run gelijk begint. Zie [tools/analysis/README.md](../tools/analysis/README.md) voor de details.
 
 **Scenario**
 
+Typ de commando's in dezelfde terminal, bij de MAVProxy-prompt:
+
 | Stap | Actie | Duur |
 |---|---|---|
-| 1 | Wachten tot QGC verbonden is en de drone GPS heeft | ±1 min |
-| 2 | Rustfase: niets doen | 60 s |
-| 3 | `missions/baseline.plan` laden, uploaden en starten | ±2–3 min |
-| 4 | Rustfase na landing en disarm | 30 s |
-| 5 | SITL stoppen: Ctrl + C in terminal 2 | – |
-| 6 | Opname stoppen: Ctrl + C in terminal 1 | – |
+| 1 | Wachten tot QGC verbonden is en de drone GPS heeft (`EKF3 IMU0 is using GPS`) | ±1 min |
+| 2 | `wp load /home/<gebruiker>/drone-cyber-range/missions/baseline.txt` | – |
+| 3 | Rustfase: niets doen | 60 s |
+| 4 | `mode guided`, `arm throttle`, direct daarna `takeoff 20` | ±30 s |
+| 5 | `mode auto`: de drone vliegt het vierkant, keert terug en landt | ±2 min |
+| 6 | Rustfase na landing en disarm | 30 s |
+| 7 | Ctrl + C: stopt SITL en de opname, daarna volgt de analyse | – |
 
-Stop altijd eerst SITL en daarna de opname.
+Bekende problemen tijdens de vlucht staan in [missions/README.md](../missions/README.md).
 
-**Bewaren per run**
+**Wat het script bewaart**
 
-- de opname: `~/captures/<NAAM>.pcap`
-- de telemetrielog van MAVProxy: `~/ardupilot/ArduCopter/mav.tlog` (hernoemen naar `<NAAM>.tlog`)
-- de autopilotlog: nieuwste bestand in `~/ardupilot/ArduCopter/logs/`
+- de opname: `~/captures/baseline_<datum>_<tijd>.pcap`
+- in `results/vluchten/baseline_<datum>_<tijd>/`: `samenvatting.txt` (uitvoer van `baseline_simpel.py`), de telemetrielog van MAVProxy (`.tlog`) en `tcpdump.log`
+
+Bewaar zelf nog de autopilotlog: het nieuwste bestand in `~/ardupilot/ArduCopter/logs/`.
 
 Voer **drie runs** uit.
+
+**Handmatig (zonder script)**
+
+Start de opname en SITL dan in twee aparte terminals:
+
+```bash
+# Terminal 1
+mkdir -p ~/captures && cd ~/captures
+NAAM=baseline_$(date +%Y%m%d_%H%M)
+sudo tcpdump -i any -w ${NAAM}.pcap 'tcp port 5760 or udp portrange 14550-14551'
+
+# Terminal 2
+cd ~/ardupilot/ArduCopter
+sim_vehicle.py -w --out=udp:10.0.2.2:14550
+```
+
+Stop na de vlucht eerst SITL en daarna de opname, en analyseer de opname zoals hieronder.
 
 ## Analyse
 
 ### Berichten tellen
+
+`run-vlucht.sh` doet dit automatisch. Een opname opnieuw of handmatig analyseren:
 
 ```bash
 cd ~/drone-cyber-range/tools/analysis
@@ -153,7 +169,7 @@ Nuttige menu's: *Statistics → Conversations* (verkeer per verbinding), *Statis
 ## Resultaten vastleggen
 
 Zet per baseline in `results/baseline/<datum>/`:
-- de uitvoer van `baseline_simpel.py` per run (`<NAAM>.txt`);
+- de `samenvatting.txt` en `tcpdump.log` van elke run (na de run te vinden in `results/vluchten/<naam>/`). Uit `tcpdump.log` blijkt of de opname compleet is (`0 packets dropped by kernel`);
 - een korte notitie met kloktijden per fase, versies (zie [config/versies.md](../config/versies.md)) en afwijkingen van de procedure;
 - screenshots (I/O-grafiek, ontlede HEARTBEAT) in `Documentatie/img/`.
 

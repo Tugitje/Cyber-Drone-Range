@@ -1,0 +1,26 @@
+Opname: /home/dronecyberrange/captures/baseline_20261014_145505.pcap  (117 seconden)
+
+drone -> GCS: 11945 berichten
+  Bericht                       Aantal   Per seconde
+  AHRS2                            568          4.83
+  ATTITUDE                         568          4.83
+  SIMSTATE                         568          4.83
+  ESC_TELEMETRY_1_TO_4             567          4.83
+  VFR_HUD                          561          4.77
+  AHRS                             389          3.31
+  SYSTEM_TIME                      389          3.31
+  WIND                             389          3.31
+  TERRAIN_REPORT                   389          3.31
+  EKF_STATUS_REPORT                389          3.31
+  VIBRATION                        388          3.30
+  BATTERY_STATUS                   388          3.30
+  GLOBAL_POSITION_INT              387          3.29
+  SYS_STATUS                       387          3.29
+  POWER_STATUS                     387          3.29
+
+GCS -> drone: 764 berichten
+  Bericht                       Aantal   Per seconde
+  HEARTBEAT                        579          4.93
+  REQUEST_DATA_STREAM              175          1.49
+  COMMAND_LONG                      10          0.09
+
