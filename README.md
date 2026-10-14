@@ -7,7 +7,7 @@ Een geïsoleerde en reproduceerbare testomgeving waarin studenten en onderzoeker
 - Installatie en eerste vlucht: [Documentatie/installatie-sitl.md](Documentatie/installatie-sitl.md)
 - QGroundControl installeren en verbinden: [Documentatie/installatie-qgc.md](Documentatie/installatie-qgc.md)
 - Normaal MAVLink-verkeer opnemen en analyseren (baseline): [Documentatie/baseline-procedure.md](Documentatie/baseline-procedure.md)
-- Referentievlucht automatisch opnemen: `scripts/run-vlucht.sh`, zie [missions/README.md](missions/README.md)
+- Vlucht automatisch opnemen: zie [hieronder](#vlucht-automatisch-opnemen)
 - Commando's kopiëren en plakken via SSH vanuit Windows: [Documentatie/ssh-verbinding.md](Documentatie/ssh-verbinding.md)
 - Gebruikte versies: [config/versies.md](config/versies.md)
 - Bevindingen en bekende problemen: [Documentatie/bevindingen.md](Documentatie/bevindingen.md)
@@ -18,6 +18,23 @@ Snelle installatie op een schone Ubuntu 26.04-VM:
 git clone <url van deze repository> ~/drone-cyber-range
 bash ~/drone-cyber-range/scripts/install-sitl.sh
 ```
+
+## Vlucht automatisch opnemen
+
+`scripts/run-vlucht.sh` start de opname en ArduPilot SITL met één commando, en analyseert de opname na Ctrl + C:
+
+```bash
+~/drone-cyber-range/scripts/run-vlucht.sh <naam> [opties voor sim_vehicle.py]
+```
+
+Het eerste woord is de naam van de run. Zonder naam heet de run `vlucht`. Alles daarna gaat naar `sim_vehicle.py`. Bijvoorbeeld:
+
+| Commando | Wanneer |
+|---|---|
+| `run-vlucht.sh baseline -w` | Baselinerun: een vaste referentievlucht. `-w` zet SITL terug op de standaardparameters, zodat elke run gelijk begint |
+| `run-vlucht.sh test` | Een gewone testvlucht. `-w` is niet nodig |
+
+De stappen voor de referentievlucht staan in [missions/README.md](missions/README.md), meer over de scripts in [tools/analysis/README.md](tools/analysis/README.md).
 
 ## Mappen
 
