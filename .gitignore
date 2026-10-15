@@ -16,6 +16,7 @@ mav.tlog.raw
 # Netwerkcaptures
 *.pcap
 *.pcapng
+!results/baseline/**/*.pcap
 
 # Python
 __pycache__/

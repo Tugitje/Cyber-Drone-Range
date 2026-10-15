@@ -12,10 +12,17 @@ Een geïsoleerde en reproduceerbare testomgeving waarin studenten en onderzoeker
 - Gebruikte versies: [config/versies.md](config/versies.md)
 - Bevindingen en bekende problemen: [Documentatie/bevindingen.md](Documentatie/bevindingen.md)
 
+Achtergrond en projectorganisatie:
+
+- Keuze voor ArduPilot in plaats van PX4: [Documentatie/ontwerpbeslissing-autopilot.md](Documentatie/ontwerpbeslissing-autopilot.md)
+- Hoe MAVLink en message signing werken: [Documentatie/kennisnotitie-mavlink-signing.md](Documentatie/kennisnotitie-mavlink-signing.md)
+- Sprints, Scrum Master en deadlines: [Documentatie/scrum-proces.md](Documentatie/scrum-proces.md)
+
 Snelle installatie op een schone Ubuntu 26.04-VM:
 
 ```bash
-git clone <url van deze repository> ~/drone-cyber-range
+sudo apt update && sudo apt install -y git
+git clone https://github.com/Tugitje/Cyber-Drone-Range.git ~/drone-cyber-range
 bash ~/drone-cyber-range/scripts/install-sitl.sh
 ```
 
@@ -47,7 +54,7 @@ De stappen voor de referentievlucht staan in [missions/README.md](missions/READM
 | `missions/` | Missiebestanden, zoals de referentiemissie `baseline.txt` |
 | `tools/wireshark/` | MAVLink-dissector voor Wireshark en tshark |
 | `tools/analysis/` | Analysescripts voor opnames, zoals `baseline_simpel.py` |
-| `results/` | Resultaten per vlucht (`vluchten/`) en samenvattingen van metingen (`baseline/`); geen grote pcap-bestanden |
+| `results/` | Resultaten per vlucht (`vluchten/`) en baselinemetingen met opnames (`baseline/`) |
 
 De broncode van ArduPilot staat niet in deze repository. Die wordt door het installatiescript opgehaald op een vaste versie.
 

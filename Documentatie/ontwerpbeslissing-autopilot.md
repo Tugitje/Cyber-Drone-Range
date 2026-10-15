@@ -97,3 +97,5 @@ PX4 is een goed alternatief, vooral voor Hardware-in-the-Loop. Dit nemen we mee 
 6. ArduPilot. ardupilot_gazebo (GitHub). https://github.com/ArduPilot/ardupilot_gazebo
 
 7. MAVLink. Message Signing (Authentication). https://mavlink.io/en/guide/message_signing.html
+
+8. PX4. Hardware in the Loop Simulation (HITL). https://docs.px4.io/main/en/simulation/hitl.html
