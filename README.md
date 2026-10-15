@@ -47,7 +47,7 @@ De stappen voor de referentievlucht staan in [missions/README.md](missions/READM
 | `missions/` | Missiebestanden, zoals de referentiemissie `baseline.txt` |
 | `tools/wireshark/` | MAVLink-dissector voor Wireshark en tshark |
 | `tools/analysis/` | Analysescripts voor opnames, zoals `baseline_simpel.py` |
-| `results/` | Resultaten per vlucht (`vluchten/`) en samenvattingen van metingen (`baseline/`); geen grote pcap-bestanden |
+| `results/` | Resultaten per vlucht (`vluchten/`) en baselinemetingen met opnames (`baseline/`) |
 
 De broncode van ArduPilot staat niet in deze repository. Die wordt door het installatiescript opgehaald op een vaste versie.
 
