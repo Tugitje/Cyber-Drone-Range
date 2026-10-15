@@ -173,4 +173,4 @@ Zet per baseline in `results/baseline/<datum>/`:
 - een korte notitie met kloktijden per fase, versies (zie [config/versies.md](../config/versies.md)) en afwijkingen van de procedure;
 - screenshots (I/O-grafiek, ontlede HEARTBEAT) in `Documentatie/img/`.
 
-Grote `.pcap`-bestanden komen niet in Git (zie `.gitignore`). Bewaar die op een gedeelde schijf.
+Zet ook de `.pcap` van elke baselinerun in de map van die run (`~/captures/<naam>.pcap`), zodat de analyse later te herhalen is. Andere opnames, zoals losse testvluchten, komen niet in Git (zie `.gitignore`).
