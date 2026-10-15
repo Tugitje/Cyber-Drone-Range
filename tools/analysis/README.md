@@ -2,7 +2,7 @@
 
 ## baseline_simpel.py
 
-Kort script (±65 regels) dat per richting telt welke MAVLink-berichten er in een opname zitten, hoe vaak, en hoeveel per seconde. Leest de opname van `tcpdump -i any` in de VM en telt alleen de verbinding met QGroundControl op de Windows-host (`10.0.2.2:14550`).
+Kort script dat per richting telt welke MAVLink-berichten er in een opname zitten, hoe vaak, en hoeveel per seconde. Leest de opname van `tcpdump -i any` in de VM en telt alleen de verbinding met QGroundControl op de Windows-host (`10.0.2.2:14550`).
 
 ```bash
 source ~/venv-ardupilot/bin/activate

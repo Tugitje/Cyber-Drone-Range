@@ -54,4 +54,4 @@ Bron: [MAVLink Message Signing](https://mavlink.io/en/guide/message_signing.html
 
 Voorstel (afleiding, niet getest): draai elke testcase met en zonder signing en vergelijk het resultaat. Zonder signing kan een test-station op hetzelfde netwerk HEARTBEAT, COMMAND_LONG, PARAM_SET en MISSION_ITEM_INT lezen en hergebruiken.
 
-Niet onderzocht: hoe signing wordt aangezet in ArduPilot of PX4 SITL en QGroundControl. De rijen met "Afleiding" zijn eigen conclusies en geen bronnen. Uitgebreidere versie: MAVLink_berichtopbouw_en_signing.docx.
+Niet onderzocht: hoe signing wordt aangezet in ArduPilot of PX4 SITL en QGroundControl. De rijen met "Afleiding" zijn eigen conclusies en geen bronnen.
